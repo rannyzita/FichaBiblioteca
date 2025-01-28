@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ProdutoController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ProdutoController">
    <children>
-      <Label layoutX="279.0" layoutY="14.0" text="Tela de cadastro">
+      <Label layoutX="149.0" layoutY="14.0" text="Tela de cadastro">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <GridPane alignment="TOP_RIGHT" layoutX="279.0" layoutY="96.0" prefHeight="141.0" prefWidth="344.0">
+      <GridPane alignment="TOP_RIGHT" layoutX="130.0" layoutY="107.0" prefHeight="141.0" prefWidth="344.0">
         <columnConstraints>
           <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -36,9 +36,10 @@
             <TextField fx:id="txtCategoria" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="279.0" layoutY="248.0" text="Produto:" />
-      <Button layoutX="279.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleUpload" text="Upload" />
-      <Button layoutX="362.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleSalvar" text="Salvar" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="130.0" layoutY="249.0" text="Produto:" />
+      <Button fx:id="btnUpload" layoutX="130.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleUpload" text="Upload" />
+      <Button fx:id="btnSalvar" layoutX="219.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleSalvar" text="Salvar" />
+      <Button fx:id="btnLimpar" layoutX="300.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleClean" text="Limpar" />
    </children>
 </AnchorPane>

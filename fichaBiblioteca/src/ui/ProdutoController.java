@@ -11,6 +11,9 @@ public class ProdutoController implements Initializable {
 	@FXML private TextField txtNome;
 	@FXML private TextField txtPreco;
 	@FXML private TextField txtCategoria;
+	@FXML private Button btnUpload;
+	@FXML private Button btnSalvar;
+	@FXML private Button btnLimpar;
 	
 	@FXML 
 	private void handleSalvar() {
@@ -22,10 +25,22 @@ public class ProdutoController implements Initializable {
         // Lógica para selecionar imagem
     }
 	
+	@FXML
+	private void handleClean() {
+		txtNome.clear();
+        txtPreco.clear();
+        txtCategoria.clear();
+        btnLimpar.setDisable(true);
+	}
+	
+	public void onKeyreleased() {
+        boolean limpar = txtNome.getText().isEmpty() && txtPreco.getText().isEmpty() && txtCategoria.getText().isEmpty();
+        btnLimpar.setDisable(limpar);
+    }
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
