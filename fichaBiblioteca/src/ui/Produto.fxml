@@ -38,7 +38,7 @@
       </GridPane>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="279.0" layoutY="248.0" text="Produto:" />
-      <Button layoutX="279.0" layoutY="420.0" mnemonicParsing="false" text="Upload" />
-      <Button layoutX="362.0" layoutY="420.0" mnemonicParsing="false" text="Salvar" />
+      <Button layoutX="279.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleUpload" text="Upload" />
+      <Button layoutX="362.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleSalvar" text="Salvar" />
    </children>
 </AnchorPane>
