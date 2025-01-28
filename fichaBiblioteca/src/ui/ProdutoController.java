@@ -1,109 +1,98 @@
 package ui;
 
-import java.awt.Image;
 import java.io.File;
-import java.net.URL;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import model.Categoria;
-import model.Produto;
-
 
 public class ProdutoController implements Initializable {
 
-	@FXML private TextField txtNome;
-	@FXML private TextField txtPreco;
-	@FXML private TextField txtCategoria;
-	@FXML private Button btnUpload;
-	@FXML private Button btnSalvar;
-	@FXML private Button btnLimpar;
-	@FXML private ImageView imgProduto;
-	private byte[] imagemSelecionada;
+    @FXML private TextField txtNome;
+    @FXML private TextField txtPreco;
+    @FXML private TextField txtCategoria;
+    @FXML private Button btnUpload;
+    @FXML private Button btnSalvar;
+    @FXML private Button btnLimpar;
+    @FXML private ImageView imgProduto;
 
-	
-	@FXML
+    private byte[] imagemBytes;
+
+    @FXML
     private void handleSave() {
         String nome = txtNome.getText();
-        String precoTexto = txtPreco.getText();
-        String categoriaTexto  = txtCategoria.getText();
+        String preco = txtPreco.getText();
+        String categoria = txtCategoria.getText();
 
-        if (nome.isEmpty() || precoTexto.isEmpty() || categoriaTexto.isEmpty() || imagemSelecionada == null) {
-            mostrarAlerta("Preencha todos os campos!", Alert.AlertType.WARNING);
+        if (nome.isEmpty() || preco.isEmpty() || categoria.isEmpty()) {
+            System.out.println("Por favor, preencha todos os campos.");
             return;
         }
 
-        try {
-            double preco = Double.parseDouble(precoTexto);
-            Categoria categoria = converterStringParaCategoria(categoriaTexto);
-            Produto produto = new Produto(0, nome, preco, imagemSelecionada, categoria);
-            produto.setNome(nome);
-            produto.setPreco(preco);
-            produto.setCategoria(categoria);
-            produto.setImagem(imagemSelecionada);
-
-            ProdutoDAO produtoDAO = new ProdutoDAO();
-            produtoDAO.salvar(produto);
-
-            mostrarAlerta("Produto salvo com sucesso!", Alert.AlertType.INFORMATION);
-            handleClean();
-
-        } catch (NumberFormatException e) {
-            mostrarAlerta("Preço inválido!", Alert.AlertType.ERROR);
+        System.out.println("Produto salvo:");
+        System.out.println("Nome: " + nome);
+        System.out.println("Preço: " + preco);
+        System.out.println("Categoria: " + categoria);
+        if (imagemBytes != null) {
+            System.out.println("Imagem carregada com sucesso.");
+        } else {
+            System.out.println("Sem imagem carregada.");
         }
-    }
-	
-	private Categoria converterStringParaCategoria(String categoriaTexto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@FXML
+        handleClean(); 
+    }
+
+    @FXML
     private void handleUpload() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
+            new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
         );
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
             try {
                 Path path = Paths.get(file.getAbsolutePath());
-                imagemSelecionada = Files.readAllBytes(path);
-                Image imagem = new Image(file.toURI().toString());
-                imgProduto.setImage(imagem);
-            } catch (Exception e) {
-                e.printStackTrace();
-                mostrarAlerta("Erro ao carregar imagem", Alert.AlertType.ERROR);
+                imagemBytes = Files.readAllBytes(path);
+                Image image = new Image(file.toURI().toString());
+                imgProduto.setImage(image);
+                System.out.println("Imagem carregada: " + file.getName());
+            } catch (IOException e) {
+                System.out.println("Erro ao carregar imagem: " + e.getMessage());
             }
         }
     }
 
-	@FXML
-	private void handleClean() {
-		txtNome.clear();
+    @FXML
+    private void handleClean() {
+        txtNome.clear();
         txtPreco.clear();
         txtCategoria.clear();
+        imgProduto.setImage(null);
+        imagemBytes = null;
         btnLimpar.setDisable(true);
-	}
-	
-	public void onKeyreleased() {
-        boolean limpar = txtNome.getText().isEmpty() && txtPreco.getText().isEmpty() && txtCategoria.getText().isEmpty();
+    }
+
+    @FXML
+    public void onKeyreleased() {
+        boolean limpar = txtNome.getText().isEmpty() && 
+                         txtPreco.getText().isEmpty() && 
+                         txtCategoria.getText().isEmpty();
         btnLimpar.setDisable(limpar);
     }
-	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		btnLimpar.setDisable(true);
-	}
 
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        btnLimpar.setDisable(true);
+    }
 }
