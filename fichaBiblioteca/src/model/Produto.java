@@ -1,20 +1,16 @@
 package model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class Produto {
     private int id;
     private String nome;
     private double preco;
     private byte[] imagem;
     private Categoria categoria;
-    
-	public Produto(int id, String nome, double preco, byte[] imagem, Categoria categoria) {
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-		this.imagem = imagem;
-		this.categoria = categoria;
-	}
-	
+   
 	public int getId() {
 		return id;
 	}
@@ -45,4 +41,30 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	
+	public void setImagem(Blob blob) {
+        try {
+            if (blob != null) {
+                InputStream inputStream = blob.getBinaryStream();
+                this.imagem = convertInputStreamToByteArray(inputStream);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
+	private byte[] convertInputStreamToByteArray(InputStream inputStream) {
+        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            return buffer.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
