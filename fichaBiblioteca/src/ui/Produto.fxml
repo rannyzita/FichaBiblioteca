@@ -31,15 +31,15 @@
             <Label text="Nome" />
             <Label layoutX="10.0" layoutY="17.0" text="Preço" GridPane.rowIndex="1" />
             <Label layoutX="10.0" layoutY="47.0" text="Categoria" GridPane.rowIndex="2" />
-            <TextField fx:id="txtNome" GridPane.columnIndex="1" />
-            <TextField fx:id="txtPreco" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="txtCategoria" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtNome" onKeyReleased="#onKeyreleased" GridPane.columnIndex="1" />
+            <TextField fx:id="txtPreco" onKeyReleased="#onKeyreleased" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtCategoria" onKeyReleased="#onKeyreleased" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgProduto" fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="130.0" layoutY="249.0" text="Produto:" />
       <Button fx:id="btnUpload" layoutX="130.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleUpload" text="Upload" />
-      <Button fx:id="btnSalvar" layoutX="219.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleSalvar" text="Salvar" />
-      <Button fx:id="btnLimpar" layoutX="300.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleClean" text="Limpar" />
+      <Button fx:id="btnSalvar" layoutX="219.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleSave" text="Salvar" />
+      <Button fx:id="btnLimpar" layoutX="300.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleClean" onKeyReleased="#onKeyreleased" text="Limpar" />
    </children>
 </AnchorPane>
