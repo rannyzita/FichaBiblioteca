@@ -39,6 +39,8 @@ public class ProdutoController implements Initializable {
             return;
         }
 
+        //area do bdd
+      
         System.out.println("Produto salvo:");
         System.out.println("Nome: " + nome);
         System.out.println("Preço: " + preco);
