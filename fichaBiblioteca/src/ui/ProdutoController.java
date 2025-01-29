@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dao.ProdutoDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,6 +16,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import model.Produto;
+import model.Categoria;
 
 public class ProdutoController implements Initializable {
 
@@ -29,17 +32,30 @@ public class ProdutoController implements Initializable {
     private byte[] imagemBytes;
 
     @FXML
-    private void handleSave() {
+    private void handleSave() throws IOException {
         String nome = txtNome.getText();
         String preco = txtPreco.getText();
         String categoria = txtCategoria.getText();
+        
+        double precoDouble = Double.parseDouble(preco);
+        
+        Produto produto = new Produto();
+        Categoria categoriaTeste = new Categoria();
+        
 
         if (nome.isEmpty() || preco.isEmpty() || categoria.isEmpty()) {
             System.out.println("Por favor, preencha todos os campos.");
             return;
         }
-
-        //area do bdd
+        
+        produto.setNome(nome);
+        produto.setPreco(precoDouble);
+        categoriaTeste.setNome(categoria);
+        
+        File imagem = handleUpload();
+        
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.inserirProduto(produto, imagem);
       
         System.out.println("Produto salvo:");
         System.out.println("Nome: " + nome);
@@ -55,24 +71,23 @@ public class ProdutoController implements Initializable {
     }
 
     @FXML
-    private void handleUpload() {
+    private File handleUpload() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
             new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
         );
         File file = fileChooser.showOpenDialog(null);
-
+        
+        
         if (file != null) {
-            try {
-                Path path = Paths.get(file.getAbsolutePath());
-                imagemBytes = Files.readAllBytes(path);
-                Image image = new Image(file.toURI().toString());
-                imgProduto.setImage(image);
-                System.out.println("Imagem carregada: " + file.getName());
-            } catch (IOException e) {
-                System.out.println("Erro ao carregar imagem: " + e.getMessage());
-            }
+            return file;
+			// Path path = Paths.get(file.getAbsolutePath());
+			// imagemBytes = Files.readAllBytes(path);
+			// Image image = new Image(file.toURI().toString());
+			// imgProduto.setImage(image);
+			// System.out.println("Imagem carregada: " + file.getName());
         }
+		return file;
     }
 
     @FXML
