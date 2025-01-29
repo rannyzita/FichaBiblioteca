@@ -11,15 +11,24 @@ public class CategoriaDAO {
 	// create
 	public void inserirCategoria (Categoria categoria) {
 		String sql = "INSERT INTO CATEGORIA (nome) VALUES (?)";
-		
-		try (PreparedStatement stmt = ConnectionFactory.getConexao().prepareStatement(sql);){
-	            stmt.setString(1, categoria.getNome());
-	  
-	            stmt.executeUpdate();
-	            
-	        } catch (SQLException e) {
-	            e.printStackTrace();
+	    
+	    try (PreparedStatement stmt = ConnectionFactory.getConexao().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+	        stmt.setString(1, categoria.getNome());
+
+	        // Executar a inserção
+	        stmt.executeUpdate();
+	        
+	        // Recuperar o ID gerado
+	        try (ResultSet rs = stmt.getGeneratedKeys()) {
+	            if (rs.next()) {
+	                categoria.setId(rs.getInt(1));  // Atualiza o objeto categoria com o ID gerado
+	                System.out.println("Categoria inserida com ID: " + categoria.getId()); // Para depuração
+	            }
 	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 	// read
 	public void lerCategoria (int id) {

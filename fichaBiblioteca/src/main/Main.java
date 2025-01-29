@@ -10,22 +10,22 @@ import model.Produto;
 public class Main {
 
     public static void main(String[] args) {
-    	// categoria
-        Categoria categoria01 = new Categoria();
-        categoria01.setNome("blusa");
+
+        Categoria categoria02 = new Categoria();
+        categoria02.setNome("sapato");
 
         // Instância do DAO para inserir a categoria
         CategoriaDAO categoriaBlusa = new CategoriaDAO();
         
         // Inserir a categoria no banco (isso pode gerar um ID para a categoria)
-        categoriaBlusa.inserirCategoria(categoria01);
+        categoriaBlusa.inserirCategoria(categoria02);
         
         //////////////////////////////////////////////////////////////////////////////
         // Agora a categoria01 já tem um ID válido
         Produto produto = new Produto();
-        produto.setNome("Farda do if");
-        produto.setPreco(45.00);
-        produto.setCategoria(categoria01);
+        produto.setNome("tenis nike");
+        produto.setPreco(1000);
+        produto.setCategoria(categoria02);
         
         // Caminho correto da imagem
         File imagem = new File("C:\\Users\\Ranny\\Desktop\\AmykCakes\\img\\b 01.png");

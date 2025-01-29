@@ -13,17 +13,24 @@ public class ProdutoDAO {
 	
 	// Create 
     public void inserirProduto(Produto produto, File imagem) {
-        String sql = "INSERT INTO PRODUTO (nome, preco, imagem, categoria) VALUES (?, ?, ?, ?)";
-        
+    	String sql = "INSERT INTO PRODUTO (nome, preco, imagem, categoria) VALUES (?, ?, ?, ?)";
         
         try (PreparedStatement stmt = ConnectionFactory.getConexao().prepareStatement(sql); 
-        	FileInputStream fis = new FileInputStream(imagem)){
-        	
+             FileInputStream fis = new FileInputStream(imagem)) {
+            
+            // Definindo os parâmetros para o produto
             stmt.setString(1, produto.getNome());
             stmt.setDouble(2, produto.getPreco());
             stmt.setBinaryStream(3, fis);
-            stmt.setInt(4, produto.getCategoria().getId());
             
+            // Verifique se o ID da categoria foi atribuído corretamente antes de inserir
+            if (produto.getCategoria() != null && produto.getCategoria().getId() != 0) {
+                stmt.setInt(4, produto.getCategoria().getId());
+            } else {
+                throw new SQLException("Categoria não tem um ID válido.");
+            }
+            
+            // Executa a inserção
             stmt.executeUpdate();
             
         } catch (SQLException | IOException e) {
