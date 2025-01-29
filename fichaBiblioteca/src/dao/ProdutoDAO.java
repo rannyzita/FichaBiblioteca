@@ -3,12 +3,9 @@ package dao;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import model.Produto;
 
@@ -36,7 +33,7 @@ public class ProdutoDAO {
     
     // Read
     public void lerProduto(int id) {
-    	String sql = "SELECT ID, NOME, PRECO, IMAGEM, CATEGORIA FROM PRODUTO WHERE ID=?";
+    	String sql = "SELECT id, nome, preco, imagem, categoria FROM produto WHERE id = ?";
     	Produto produto = null;
     	
     	try (PreparedStatement ps = ConnectionFactory.getConexao().prepareStatement(sql)) {
@@ -60,13 +57,11 @@ public class ProdutoDAO {
     	} catch (SQLException e) {
     	    e.printStackTrace();
     	}
-        
-       
     }
     
     // Update
     public void atualizarProduto(Produto produto, File imagem) {
-    	String sql = "UPDATE PRODUTO SET nome = ?, preco = ?, imagem = ?, categoria = ? WHERE id = ?";
+    	String sql = "UPDATE produto SET nome = ?, preco = ?, imagem = ?, categoria = ? WHERE id = ?";
     	
     	try (PreparedStatement stmt = ConnectionFactory.getConexao().prepareStatement(sql); 
     	         FileInputStream fis = new FileInputStream(imagem)) {
@@ -88,7 +83,7 @@ public class ProdutoDAO {
     
     // Delete
     public void deletarProduto(int id) {
-    	String sql = "DELETE FROM PRODUTO WHERE id = ?";
+    	String sql = "DELETE FROM produto WHERE id = ?";
         
         try (PreparedStatement stmt = ConnectionFactory.getConexao().prepareStatement(sql)) {
             stmt.setInt(1, id);  // Define o ID do produto a ser deletado
