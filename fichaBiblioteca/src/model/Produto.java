@@ -10,11 +10,7 @@ public class Produto {
     private double preco;
     private byte[] imagem;
     private Categoria categoria;
-<<<<<<< HEAD
-   
-=======
-	
->>>>>>> refs/heads/feature-yarlla
+
 	public int getId() {
 		return id;
 	}
