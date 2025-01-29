@@ -47,12 +47,12 @@ public class Main extends Application {
         //produto.setCategoria(categoria);
         
         // Caminho correto da imagem
-        File imagem = new File("C:\\Users\\Ranny\\Desktop\\AmykCakes\\img\\b 01.png");
+        //File imagem = new File("C:\\Users\\Ranny\\Desktop\\AmykCakes\\img\\b 01.png");
         
         // Instância do DAO para inserir o produto
-        ProdutoDAO produtoIF = new ProdutoDAO();
+        //ProdutoDAO produtoIF = new ProdutoDAO();
         
         // Inserir o produto no banco
-        produtoIF.inserirProduto(produto, imagem);
+        //produtoIF.inserirProduto(produto, imagem);
     }
 }
