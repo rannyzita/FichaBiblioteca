@@ -10,7 +10,7 @@ public class Produto {
     private double preco;
     private byte[] imagem;
     private Categoria categoria;
-   
+
 	public int getId() {
 		return id;
 	}
