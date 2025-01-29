@@ -6,14 +6,6 @@ public class Produto {
     private double preco;
     private byte[] imagem;
     private Categoria categoria;
-    
-	public Produto(int id, String nome, double preco, byte[] imagem, Categoria categoria) {
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-		this.imagem = imagem;
-		this.categoria = categoria;
-	}
 	
 	public int getId() {
 		return id;
