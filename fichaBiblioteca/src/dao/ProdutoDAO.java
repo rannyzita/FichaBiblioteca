@@ -7,12 +7,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import logic.ProdutoLogic;
 import model.Produto;
 
 public class ProdutoDAO {
-	
+	private ProdutoLogic produtoLogic = new ProdutoLogic();
 	// Create 
     public void inserirProduto(Produto produto, File imagem) {
+    	produtoLogic.validarNome(produto);
+        produtoLogic.validarPreco(produto);
+       
     	String sql = "INSERT INTO PRODUTO (nome, preco, imagem, categoria) VALUES (?, ?, ?, ?)";
         
         try (PreparedStatement stmt = ConnectionFactory.getConexao().prepareStatement(sql); 
