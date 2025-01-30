@@ -3,13 +3,14 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
-
 import dao.ProdutoDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import model.Produto;
@@ -25,65 +26,52 @@ public class ProdutoController implements Initializable {
     @FXML private Button btnLimpar;
     @FXML private ImageView imgProduto;
 
-    private byte[] imagemBytes;
+    private File imagemFile;
 
     @FXML
-    private void handleSave() throws IOException {
-        String nome = txtNome.getText();
-        String preco = txtPreco.getText();
-        String categoria = txtCategoria.getText();
-        
-        double precoDouble = Double.parseDouble(preco);
-        
-        Produto produto = new Produto();
-        Categoria categoriaTeste = new Categoria();
-        
+    private void handleSave() {
+        try {
+            String nome = txtNome.getText();
+            String preco = txtPreco.getText();
+            String categoriaNome = txtCategoria.getText();
 
-        if (nome.isEmpty() || preco.isEmpty() || categoria.isEmpty()) {
-            System.out.println("Por favor, preencha todos os campos.");
-            return;
-        }
-        
-        produto.setNome(nome);
-        produto.setPreco(precoDouble);
-        categoriaTeste.setNome(categoria);
-        
-        File imagem = handleUpload();
-        
-        ProdutoDAO produtoDAO = new ProdutoDAO();
-        produtoDAO.inserirProduto(produto, imagem);
-      
-        System.out.println("Produto salvo:");
-        System.out.println("Nome: " + nome);
-        System.out.println("Preço: " + preco);
-        System.out.println("Categoria: " + categoria);
-        if (imagemBytes != null) {
-            System.out.println("Imagem carregada com sucesso.");
-        } else {
-            System.out.println("Sem imagem carregada.");
-        }
+            if (nome.isEmpty() || preco.isEmpty() || categoriaNome.isEmpty()) {
+                System.out.println("Por favor, preencha todos os campos.");
+                return;
+            }
 
-        handleClean(); 
+            double precoDouble = Double.parseDouble(preco);
+
+            Produto produto = new Produto();
+            produto.setNome(nome);
+            produto.setPreco(precoDouble);
+
+            Categoria categoria = new Categoria();
+            categoria.setNome(categoriaNome);
+            produto.setCategoria(categoria);
+
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            produtoDAO.inserirProduto(produto, imagemFile);
+
+            System.out.println("Produto salvo com sucesso.");
+            handleClean();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    private File handleUpload() throws IOException {
+    private void handleUpload() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
             new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
         );
-        File file = fileChooser.showOpenDialog(null);
-        
-        
-        if (file != null) {
-            return file;
-			// Path path = Paths.get(file.getAbsolutePath());
-			// imagemBytes = Files.readAllBytes(path);
-			// Image image = new Image(file.toURI().toString());
-			// imgProduto.setImage(image);
-			// System.out.println("Imagem carregada: " + file.getName());
+        imagemFile = fileChooser.showOpenDialog(null);
+
+        if (imagemFile != null) {
+            imgProduto.setImage(new Image(imagemFile.toURI().toString()));
+            System.out.println("Imagem carregada: " + imagemFile.getName());
         }
-		return file;
     }
 
     @FXML
@@ -92,20 +80,20 @@ public class ProdutoController implements Initializable {
         txtPreco.clear();
         txtCategoria.clear();
         imgProduto.setImage(null);
-        imagemBytes = null;
+        imagemFile = null;
         btnLimpar.setDisable(true);
     }
 
     @FXML
     public void onKeyreleased() {
-        boolean limpar = txtNome.getText().isEmpty() && 
-                         txtPreco.getText().isEmpty() && 
+        boolean limpar = txtNome.getText().isEmpty() &&
+                         txtPreco.getText().isEmpty() &&
                          txtCategoria.getText().isEmpty();
         btnLimpar.setDisable(limpar);
     }
 
     @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
+    public void initialize(URL url, ResourceBundle rb) {
         btnLimpar.setDisable(true);
     }
 }
