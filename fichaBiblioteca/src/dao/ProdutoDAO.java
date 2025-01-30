@@ -12,7 +12,8 @@ import model.Produto;
 
 public class ProdutoDAO {
 	private ProdutoLogic produtoLogic = new ProdutoLogic();
-	// Create 
+	// Create vamos please
+	
     public void inserirProduto(Produto produto, File imagem) {
     	produtoLogic.validarNome(produto);
         produtoLogic.validarPreco(produto);
